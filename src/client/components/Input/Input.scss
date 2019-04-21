@@ -1,0 +1,60 @@
+@import "../../assets/stylesheets/common";
+
+.dropDownContainer {
+    position: relative;
+
+    &:focus{
+        outline: none;
+    }
+}
+
+.input_text_container {
+    border: thin solid lighten($color-main, 20);
+}
+
+.optionsContainer {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+    height: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    z-index: 998;
+    background-color: #fff;
+    opacity: 0;
+    transition: 0.15s linear;
+
+    &.open {
+        margin-top: 0.2em;
+        height: auto;
+        opacity: 1;
+        border: thin solid lighten($color-main, 10);
+    }
+
+    &>ul {
+        padding: 0;
+        margin: 0 0.2em;
+    }
+
+    li {
+        padding: 0.3em;
+        list-style: none;
+        border-bottom: thin solid lighten($color-main, 50);
+        cursor: pointer;
+    }
+
+    li:last-of-type {
+        border: none;
+    }
+}
+
+INPUT[type="text"] {
+    border: none;
+    outline: none;
+    padding: 0.5em;
+    width: 100%;
+    box-sizing: border-box;
+    color: $color-main;
+    font-size: 1em;
+}

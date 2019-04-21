@@ -1,0 +1,43 @@
+@import "../../../assets/stylesheets/common";
+
+.dialog {
+    width: 70%;
+    margin: auto;
+    background-color: #fff;
+    border: thin solid lighten($color-main, 10);
+    border-radius: 0.2em;
+    color: $color-main;
+}
+
+.dialog__caption {
+    text-align: right;
+
+    & IMG {
+        margin: 0.8em;
+        height: 1.5em;
+        cursor: pointer;
+    }
+}
+
+.dialog__content {
+    margin: 2em;
+    font-size: 1.5em;
+}
+
+.hr {
+    margin: 0 0.5em;
+    min-height: 2px;
+    height: 0.08em;
+
+    &.error {
+        background-color: #a02c2c;
+    }
+
+    &.warning {
+        background-color: #aa8800;
+    }
+    
+    &.info {
+        background-color: thin solid lighten($color-main, 50);
+    }
+}
