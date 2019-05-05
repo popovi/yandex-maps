@@ -3,7 +3,7 @@
 .dropDownContainer {
     position: relative;
 
-    &:focus{
+    &:focus {
         outline: none;
     }
 }
@@ -42,6 +42,11 @@
         list-style: none;
         border-bottom: thin solid lighten($color-main, 50);
         cursor: pointer;
+
+        &.current {
+            background-color: lighten($color-main, 70);
+            font-weight: bold;
+        }
     }
 
     li:last-of-type {

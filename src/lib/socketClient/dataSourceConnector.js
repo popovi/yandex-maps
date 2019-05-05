@@ -3,7 +3,7 @@ import * as constants from "../constants";
 
 class SocketDataSource {
     constructor() {
-        this.handlers = [];
+        this.handlers = {};
 
         this[constants.socketServerResponses.GET_OPTIONS_PLACEMARKS] = this[constants.socketServerResponses.GET_OPTIONS_PLACEMARKS].bind(this);
         this[constants.socketServerResponses.FIND_PLACEMARK] = this[constants.socketServerResponses.FIND_PLACEMARK].bind(this);
@@ -20,25 +20,26 @@ class SocketDataSource {
     }
 
     [constants.socketServerResponses.GET_OPTIONS_PLACEMARKS](payload) {
-        this.handlers.forEach(handler => {
+        for (const handler of Object.values(this.handlers))
             handler(constants.socketServerResponses.GET_OPTIONS_PLACEMARKS, payload);
-        });
     }
 
     [constants.socketServerResponses.FIND_PLACEMARK](payload) {
-        this.handlers.forEach(handler => {
+        for (const handler of Object.values(this.handlers))
             handler(constants.socketServerResponses.FIND_PLACEMARK, payload);
-        });
     }
 
     [constants.socketServerResponses.GET_ITERMEDIATE_PLACEMARKS](payload) {
-        this.handlers.forEach(handler => {
+        for (const handler of Object.values(this.handlers))
             handler(constants.socketServerResponses.GET_ITERMEDIATE_PLACEMARKS, payload);
-        });
     }
 
-    addDataListener(handler) {
-        this.handlers.push(handler);
+    addDataListener(subscriberId, handler) {
+        this.handlers[subscriberId] = handler;
+    }
+
+    removeDataListener(subscriberId) {
+        delete this.handlers[subscriberId];
     }
 }
 

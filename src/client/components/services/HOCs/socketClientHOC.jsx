@@ -29,13 +29,20 @@ function withSocket(WrappedComponent) {
             this.handleDataChange = this.handleDataChange.bind(this);
         }
 
+        /////////////////////////////////
+        // Lifecircles
+
         componentDidMount() {
-            socketDataSource.addDataListener(this.handleDataChange);
+            socketDataSource.addDataListener(WithSocket.displayName, this.handleDataChange);
         }
 
         componentWillUnmount() {
-
+            socketDataSource.removeDataListener(this.handleDataChange);
         }
+        /////////////////////////////////
+
+        /////////////////////////////////
+        // Events handlers
 
         handleDataChange(changeType, payload) {
             switch (changeType) {
@@ -79,6 +86,7 @@ function withSocket(WrappedComponent) {
                     break;
             }
         }
+        /////////////////////////////////
 
         render() {
             return (

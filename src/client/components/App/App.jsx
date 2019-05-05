@@ -159,7 +159,7 @@ class App extends React.Component {
         });
     }
 
-    handleDropDownInput(name, value) {
+    handleDropDownInput(name, value, withProcessing = true) {
         value = value.trim();
 
         if (this.state[`${name}Value`] != value) {
@@ -167,30 +167,32 @@ class App extends React.Component {
                 [`${name}Value`]: value
             };
 
-            // set "stopReceive" flag on other inputs
-            this.inputNames.forEach(inputName => {
-                newState[`${inputName}SocketOptions`] = this.state[`${inputName}SocketOptions`];
-                if (inputName != name)
-                    newState[`${inputName}SocketOptions`].stopReceive = true;
-            });
-            //
+            if (withProcessing) {
+                // set "stopReceive" flag on other inputs
+                this.inputNames.forEach(inputName => {
+                    newState[`${inputName}SocketOptions`] = this.state[`${inputName}SocketOptions`];
+                    if (inputName != name)
+                        newState[`${inputName}SocketOptions`].stopReceive = true;
+                });
+                //
 
-            newState[`${name}Placemark`] = {
-                ...this.state[`${name}Placemark`],
-                ...{
-                    id: -1
+                newState[`${name}Placemark`] = {
+                    ...this.state[`${name}Placemark`],
+                    ...{
+                        id: -1
+                    }
+                };
+                newState.intermediatePlacemarks = null;
+
+                if (value) {    // request dropdown options
+                    newState[`${name}SocketOptions`].requestCounter += 1;
+                    newState[`${name}SocketOptions`].stopReceive = false;
+                    getOptionsPlacemarks(name, newState[`${name}SocketOptions`].requestCounter, value);
                 }
-            };
-            newState.intermediatePlacemarks = null;
-
-            if (value) {    // request dropdown options
-                newState[`${name}SocketOptions`].requestCounter += 1;
-                newState[`${name}SocketOptions`].stopReceive = false;
-                getOptionsPlacemarks(name, newState[`${name}SocketOptions`].requestCounter, value);
-            }
-            else {          // dispose dropdown options
-                newState[`${name}SocketOptions`].stopReceive = true;
-                newState[`${name}Options`] = [];
+                else {          // dispose dropdown options
+                    newState[`${name}SocketOptions`].stopReceive = true;
+                    newState[`${name}Options`] = [];
+                }
             }
 
             this.setState(newState);
