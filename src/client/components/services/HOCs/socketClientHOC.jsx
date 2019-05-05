@@ -37,7 +37,7 @@ function withSocket(WrappedComponent) {
         }
 
         componentWillUnmount() {
-            socketDataSource.removeDataListener(this.handleDataChange);
+            socketDataSource.removeDataListener(WithSocket.displayName);
         }
         /////////////////////////////////
 
